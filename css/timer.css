@@ -121,3 +121,12 @@ body{
 	text-transform: uppercase;
 	display: inline-block;
 }
+
+
+.text-thumbnail{
+  height: 70px;
+}
+
+.h3-thumbnail{
+  height: 45px;
+}
