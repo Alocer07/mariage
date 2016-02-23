@@ -83,7 +83,7 @@
  
 // create email headers
     
-$email_from = "mariage@mariage.fr";
+$email_from = "reponse@cindyetalexis.fr";
  
 $headers = 'From: '.$email_from."\r\n".
  
@@ -222,15 +222,13 @@ if(!mail($email_to, $email_subject, $email_message, $headers))
           <div class="panel panel-default">
             <div class="panel-body">
               <h3 class="panel-title pull-left">Cindy et Alexis - 27 Août 2016</h3>
-              <h3 class="panel-title pull-right">Made by <a href="www.abnov-it.fr">ABnov'IT</a></h3>
+              <h3 class="panel-title pull-right">Made by <a href="http://www.abnov-it.fr" target="_blank">ABnov'IT</a></h3>
             </div>
           </div>
 
         </div>
       </div>
     </div>
-
-    <script src="js/timer.js"></script>
   </body>
 </html>
 
