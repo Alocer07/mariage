@@ -1,4 +1,108 @@
-<html>
+<?php
+    // EDIT THE 2 LINES BELOW AS REQUIRED
+ 
+    $email_to = "boute.alexis@free.fr";
+ 
+    $email_subject = "Réponse mariage";
+ 
+     
+ 
+     
+ 
+    function died($error) {
+ 
+        // your error code can go here
+ 
+        echo "We are very sorry, but there were error(s) found with the form you submitted. ";
+ 
+        echo "These errors appear below.<br /><br />";
+ 
+        echo $error."<br /><br />";
+ 
+        echo "Please go back and fix these errors.<br /><br />";
+ 
+        die();
+ 
+    }
+     
+ 
+    // validation expected data exists
+ 
+    if(!isset($_POST['nom']) ||
+ 
+        !isset($_POST['inlineRadioOptions']) ||
+ 
+        !isset($_POST['adultevin']) ||
+ 
+        !isset($_POST['enfantvin'])) {
+ 
+        died('We are sorry, but there appears to be a problem with the form you submitted.');       
+ 
+    }
+ 
+     
+ 
+    $nom= $_POST['nom']; // required
+ 
+    $participation = $_POST['inlineRadioOptions']; // required
+ 
+    $adulte_vin = $_POST['adultevin']; // required
+ 
+    $enfant_vin = $_POST['enfantvin']; // not required
+    
+    $adulte_repas = $_POST['adulterepas']; // required
+ 
+    $enfant_repas = $_POST['enfantrepas']; // not required
+ 
+    $comments = $_POST['comments']; // required
+     
+ 
+    function clean_string($string) {
+ 
+      $bad = array("content-type","bcc:","to:","cc:","href");
+ 
+      return str_replace($bad,"",$string);
+ 
+    }
+ 
+     
+ 
+    $email_message .= "Nom de famille: ".clean_string($nom)."\n";
+ 
+    $email_message .= "Participation: ".clean_string($participation)."\n";
+ 
+    $email_message .= "Nb d'adultes au vin d'honneur : ".clean_string($adulte_vin)."\n";
+ 
+    $email_message .= "Nb d'enfants au vin d'honneur : ".clean_string($enfant_vin)."\n";
+    
+    $email_message .= "Nb d'adultes au repas : ".clean_string($adulte_repas)."\n";
+    
+    $email_message .= "Nb d'enfants au repas : ".clean_string($enfant_repas)."\n";
+    
+    $email_message .= "Commentaires : ".clean_string($comments)."\n";
+   
+     
+ 
+// create email headers
+    
+$email_from = "mariage@mariage.fr";
+ 
+$headers = 'From: '.$email_from."\r\n".
+ 
+'Reply-To: '.$email_from."\r\n" .
+ 
+'X-Mailer: PHP/' . phpversion();
+
+
+
+if(!mail($email_to, $email_subject, $email_message, $headers))
+{
+  $error = "Nous n'avons pas pu prendre en compte vos informations. Réessayer plus tard ou contactez nous par téléphone ou mail.";
+}
+
+?>
+ 
+ <html>
   <head>
 
 
@@ -65,80 +169,14 @@
       <div class="row">
         <div class="col-md-12">
           <h3 class="text-center">
-            Pour répondre à notre invitation, rien de plus simple, veuillez compléter ce bref formulaire :
+            <?php 
+              if($error)
+                echo $error;
+              else
+                echo "Merci d'avoir pris le temps de nous répondre."
+            ?>
           </h3>
           <br/><br/>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-          <form method="post" action="sender.php">
-            <div class="form-group">
-              <label for="nom">Votre nom de famille et votre prénom</label>
-              <input type="text" class="form-control" name="nom" placeholder="Boute Alexis">
-            </div>
-            <div class="form-group">
-
-              <label for="inlineRadioOptions">Participera au mariage ?</label>
-              <label class="radio-inline">
-                <input type="radio" name="inlineRadioOptions" value="option1"> Oui
-              </label>
-              <label class="radio-inline">
-                <input type="radio" name="inlineRadioOptions" value="option2"> Non
-              </label>
-
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Nombre d'adultes présents au vin d'honneur : </label>
-              <input type="number" class="form-control" name="adultevin" placeholder="Nombre d'adultes">
-            </div>
-
-            <div class="form-group">
-              <label for="exampleInputEmail1">Nombre d'enfants présents au vin d'honneur : </label>
-              <input type="number" class="form-control" name="enfantvin" placeholder="Nombre d'enfants">
-            </div>
-            <br/>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <h4 class="text-center">
-            Pour les personnes conviées au repas, merci de nous indiquer le nombres de convives présents : 
-          </h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-          <div class="form-group">
-            <label for="exampleInputEmail1">Nombre d'adultes présents au repas : </label>
-            <input type="number" class="form-control" name="adulterepas" placeholder="Nombre d'adultes présents au repas">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Nombre d'enfants présents au repas : </label>
-            <input type="number" class="form-control" name="enfantrepas" placeholder="Nombre d'enfants présents au repas">
-          </div>
-          <br/>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <h4 class="text-center">
-            Si vous avez des commentaires ou des demandes particulières : 
-          </h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-          <div class="form-group">
-            <textarea class="form-control" name="comments" rows="3"></textarea>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-md-offset-3 text-center">
-          <button type="submit" class="btn btn-default">Confirmer</button>
-          </form>
-
         </div>
       </div>
       <div class='row'>
@@ -197,3 +235,4 @@
     <script src="js/timer.js"></script>
   </body>
 </html>
+
