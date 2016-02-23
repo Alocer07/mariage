@@ -1,25 +1,21 @@
 <?php
     // EDIT THE 2 LINES BELOW AS REQUIRED
  
-    $email_to = "boute.alexis@free.fr";
+    $email_to = "boute.alexis@free.fr, cindy0523@orange.fr";
  
     $email_subject = "Réponse mariage";
  
      
- 
+    
      
  
     function died($error) {
  
         // your error code can go here
  
-        echo "We are very sorry, but there were error(s) found with the form you submitted. ";
- 
-        echo "These errors appear below.<br /><br />";
+        echo "Une erreur est survenu";
  
         echo $error."<br /><br />";
- 
-        echo "Please go back and fix these errors.<br /><br />";
  
         die();
  
@@ -30,13 +26,11 @@
  
     if(!isset($_POST['nom']) ||
  
-        !isset($_POST['inlineRadioOptions']) ||
+        !isset($_POST['inlineRadioOptions'])
  
-        !isset($_POST['adultevin']) ||
+        ) {
  
-        !isset($_POST['enfantvin'])) {
- 
-        died('We are sorry, but there appears to be a problem with the form you submitted.');       
+        died('Veuillez remplir au moins votre nom et la participation');       
  
     }
  
@@ -69,8 +63,12 @@
  
     $email_message .= "Nom de famille: ".clean_string($nom)."\n";
  
-    $email_message .= "Participation: ".clean_string($participation)."\n";
- 
+    
+    if($participation == "option1")
+      $email_message .= "Participation: Oui\n";
+    else
+      $email_message .= "Participation: Non\n";
+    
     $email_message .= "Nb d'adultes au vin d'honneur : ".clean_string($adulte_vin)."\n";
  
     $email_message .= "Nb d'enfants au vin d'honneur : ".clean_string($enfant_vin)."\n";
