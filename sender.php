@@ -1,4 +1,106 @@
-<html>
+<?php
+    // EDIT THE 2 LINES BELOW AS REQUIRED
+ 
+    $email_to = "boute.alexis@free.fr, cindy0523@orange.fr";
+ 
+    $email_subject = "Réponse mariage";
+ 
+     
+    
+     
+ 
+    function died($error) {
+ 
+        // your error code can go here
+ 
+        echo "Une erreur est survenu";
+ 
+        echo $error."<br /><br />";
+ 
+        die();
+ 
+    }
+     
+ 
+    // validation expected data exists
+ 
+    if(!isset($_POST['nom']) ||
+ 
+        !isset($_POST['inlineRadioOptions'])
+ 
+        ) {
+ 
+        died('Veuillez remplir au moins votre nom et la participation');       
+ 
+    }
+ 
+     
+ 
+    $nom= $_POST['nom']; // required
+ 
+    $participation = $_POST['inlineRadioOptions']; // required
+ 
+    $adulte_vin = $_POST['adultevin']; // required
+ 
+    $enfant_vin = $_POST['enfantvin']; // not required
+    
+    $adulte_repas = $_POST['adulterepas']; // required
+ 
+    $enfant_repas = $_POST['enfantrepas']; // not required
+ 
+    $comments = $_POST['comments']; // required
+     
+ 
+    function clean_string($string) {
+ 
+      $bad = array("content-type","bcc:","to:","cc:","href");
+ 
+      return str_replace($bad,"",$string);
+ 
+    }
+ 
+     
+ 
+    $email_message .= "Nom de famille: ".clean_string($nom)."\n";
+ 
+    
+    if($participation == "option1")
+      $email_message .= "Participation: Oui\n";
+    else
+      $email_message .= "Participation: Non\n";
+    
+    $email_message .= "Nb d'adultes au vin d'honneur : ".clean_string($adulte_vin)."\n";
+ 
+    $email_message .= "Nb d'enfants au vin d'honneur : ".clean_string($enfant_vin)."\n";
+    
+    $email_message .= "Nb d'adultes au repas : ".clean_string($adulte_repas)."\n";
+    
+    $email_message .= "Nb d'enfants au repas : ".clean_string($enfant_repas)."\n";
+    
+    $email_message .= "Commentaires : ".clean_string($comments)."\n";
+   
+     
+ 
+// create email headers
+    
+$email_from = "reponse@cindyetalexis.fr";
+ 
+$headers = 'From: '.$email_from."\r\n".
+ 
+'Reply-To: '.$email_from."\r\n" .
+ 
+'X-Mailer: PHP/' . phpversion();
+
+
+
+if(!mail($email_to, $email_subject, $email_message, $headers))
+{
+  $error = "Nous n'avons pas pu prendre en compte vos informations. Réessayer plus tard ou contactez nous par téléphone ou mail.";
+}
+
+?>
+ 
+ <html>
   <head>
 
 
@@ -31,9 +133,9 @@
 
     <div class="container">
       <ul class="nav navbar-nav">
-        <li role="presentation" class="active"><a href="/">Accueil</a></li>
+        <li role="presentation"><a href="/">Accueil</a></li>
         <li role="presentation"><a href="info.html">Infos utiles</a></li>
-        <li role="presentation"><a href="reponse.html">Réponse invitation</a></li>
+        <li role="presentation" class="active"><a href="reponse.html">Réponse invitation</a></li>
         <li role="presentation"><a href="voyage.html">Le voyage</a></li>
       </ul>
       <div class="row">
@@ -63,55 +165,20 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-          <div id="countdown">
-            <div id='tiles'></div>
-            <div class="labels">
-              <ul>
-                <li>Jours</li>
-                <li>Heures</li>
-                <li>Mins</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4 col-sm-6">
-          <br/><br/><br/><br/><br/>
-          <div class="thumbnail">
-              <img class="img-responsive img-thumbnail" src="media/marliou.jpg">
-            <div class="caption">
-              <h3 class="h3-thumbnail">Le bonheur n'est réel que lorsqu'il est partagé</h3>
-              <p class="text-thumbnail">Toutes les infos pour nous rejoindre et ne rien rater de cette journée de bonheur</p>
-              <p class="text-center"><a href="info.html" class="btn btn-primary" role="button">En savoir plus</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-sm-6">
-          <br/><br/><br/><br/><br/>
-          <div class="thumbnail">
-              <img class="img-responsive img-thumbnail" src="media/faire_part.png">
-            <div class="caption">
-              <h3 class="h3-thumbnail">Répondre à notre invitation</h3>
-              <p class="text-thumbnail">Pour répondre à notre invitation et nous aider à organiser cette journée de la meilleur des façon</p>
-              <p class="text-center"><a href="reponse.html" class="btn btn-primary" role="button">Nous répondre</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-sm-6">
-          <br/><br/><br/><br/><br/>
-          <div class="thumbnail">
-              <img class="img-responsive img-thumbnail" src="media/bali.jpg">
-            <div class="caption">
-              <h3 class="h3-thumbnail">“Heureux qui, comme Ulysse, a fait un beau voyage.”</h3>
-              <p class="text-thumbnail">Parce que mariage rime avec voyage, vous pourrez trouver ici quelques infos sur la destination de notre voyage de noce </p>
-              <p class="text-center"><a href="voyage.html" class="btn btn-primary" role="button">En savoir plus</a></p>
-            </div>
-          </div>
+        <div class="col-md-12">
+          <h3 class="text-center">
+            <?php 
+              if($error)
+                echo $error;
+              else
+                echo "Merci d'avoir pris le temps de nous répondre."
+            ?>
+          </h3>
+          <br/><br/>
         </div>
       </div>
       <div class='row'>
+        <br/>
         <div class='col-md-12'>
           <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
@@ -162,7 +229,6 @@
         </div>
       </div>
     </div>
-
-    <script src="js/timer.js"></script>
   </body>
 </html>
+
